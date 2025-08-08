@@ -26,16 +26,50 @@ class Word {
   }
 
   // implement the guessLetter function:
-  // guessLetter(letter) {}
+  guessLetter(letter) {
+    if (this.correctLetters.includes(letter) || this.incorrectLetters.includes(letter)){
+      return
+    }
+    if (this.word.includes(letter)) {
+      this.correctLetters.push(letter)
+      let newDisplayWord = ''
+      for (let i = 0; i < this.word.length; i++) {
+        let wordLetter = this.word[i]
+        if (this.correctLetters.includes(wordLetter)) {
+          newDisplayWord += wordLetter
+        } else {
+          newDisplayWord += '_'
+        }
+     }
+      this.displayWord = newDisplayWord
+    } else {
+      this.incorrectLetters.push(letter)
+      this.remainingGuesses--
+    }
+   }
+    
 
   // implement the updateScreen function:
-  // updateScreen() {}
+  updateScreen() {
+    document.getElementById('word-to-guess').textContent = this.displayWord
+    document.getElementById('remaining-guesses').textContent = this.remainingGuesses
+    document.getElementById('incorrect-letters').textContent = this.incorrectLetters.join(', ')
+  }
 
   // implement the isGameOver function:
-  // isGameOver() {}
+  isGameOver() {
+    return this.remainingGuesses <= 0 || this.displayWord === this.word
+  }
 
   // implement the getWinOrLoss function:
-  // getWinOrLoss() {}
+  getWinOrLoss() {
+    if (this.displayWord === this.word) {
+      return 'win'
+    } else if (this.remainingGuesses <= 0) {
+      return 'loss'
+    }
+    return null
+  }
 }
 
 function newGame() {
